@@ -4,11 +4,18 @@ import userRoute from "./routers/userRoute.js";
 import { connectDB } from "./config/dbConnect.js";
 import { errorHandler } from "./config/errorHandler.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
-const app = express(); 
+const app = express();
 dotenv.config();
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin:"http://localhost:5173",
+    credentials: true,
+  })
+);
 
 connectDB().then(() => {
   app.listen(process.env.PORT, () => {
@@ -17,4 +24,4 @@ connectDB().then(() => {
 });
 
 app.use("/user", userRoute);
-app.use(errorHandler)
+app.use(errorHandler);
